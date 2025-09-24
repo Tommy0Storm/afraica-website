@@ -1,89 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Afraica - Loading</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Cache-Control" content="public, max-age=3600">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <title>afrAIca Loading</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .loader-container {
-            text-align: center;
-            color: white;
-        }
+    body {
+      background-color: #030712;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      cursor: grab;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .afraica-ball {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle at 30% 30%, #ffd700, #ff8c00);
-            border-radius: 50%;
-            margin: 0 auto 30px;
-            animation: bounce 1.5s ease-in-out infinite;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
+    body:active {
+      cursor: grabbing;
+    }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-30px) scale(1.1); }
-        }
+    #loading-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #030712;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s ease-out;
+    }
 
-        .loading-text {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+    #loading-container.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
 
-        .subtitle {
-            font-size: 16px;
-            opacity: 0.8;
-        }
+    #particle-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
 
-        .progress-bar {
-            width: 200px;
-            height: 4px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 2px;
-            margin: 20px auto;
-            overflow: hidden;
-        }
+    .logo-text {
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffffff;
+      font-family: 'Google Sans', system-ui, sans-serif;
+      font-size: 12rem;
+      font-weight: 400;
+      text-align: center;
+      z-index: 2;
+      letter-spacing: 0.5px;
+    }
 
-        .progress-fill {
-            height: 100%;
-            background: #ffd700;
-            border-radius: 2px;
-            animation: loading 3s ease-in-out forwards;
-        }
+    .logo-ai {
+      color: #C8102E;
+      font-weight: 500;
+    }
 
-        @keyframes loading {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-    </style>
+    .loading-text {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffffff;
+      font-family: 'Google Sans', system-ui, sans-serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      text-align: center;
+      z-index: 2;
+      opacity: 0.8;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .loading-text .highlight {
+      color: #C8102E;
+      font-weight: 500;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    .loading-progress {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 1px;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .loading-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #C8102E 0%, #ffffff 50%, #C8102E 100%);
+      border-radius: 1px;
+      width: 0%;
+      transition: width 10s linear;
+      box-shadow: 0 0 10px rgba(200, 16, 46, 0.5);
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .logo-text {
+        font-size: 9rem;
+        top: 10%;
+      }
+
+      .loading-text {
+        font-size: 1rem;
+        bottom: 15%;
+      }
+
+      .loading-progress {
+        width: 250px;
+        bottom: 10%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-text {
+        font-size: 7.5rem;
+        top: 12%;
+      }
+
+      .loading-text {
+        font-size: 0.9rem;
+        bottom: 20%;
+      }
+
+      .loading-progress {
+        width: 200px;
+        bottom: 15%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="loader-container">
-        <div class="afraica-ball"></div>
-        <div class="loading-text">AFRAICA</div>
-        <div class="subtitle">Welcome to Africa's Digital Future</div>
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
-        </div>
+  <div id="loading-container">
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="logo-text">
+      afr<span class="logo-ai">AI</span>ca
     </div>
 
-    <script>
-        // Redirect to main page after 3 seconds
-        setTimeout(function() {
-            window.location.href = 'main.html';
-        }, 3000);
-    </script>
+    <div class="loading-text">
+      Our Northern Star is for AI to <span class="highlight">responsibly transform</span> and fuel progress for bold, and new futures.
+    </div>
+
+    <div class="loading-progress">
+      <div class="loading-progress-bar" id="progress-bar"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeLoadingBall } from './components/ball-loader.js';
+
+    let loadingBallCleanup = null;
+    let loadingTimeout = null;
+
+    function startLoading() {
+      const container = document.getElementById('loading-container');
+      const progressBar = document.getElementById('progress-bar');
+
+      if (!container || !progressBar) return;
+
+      // Initialize the particle ball
+      try {
+        loadingBallCleanup = initializeLoadingBall('particle-canvas');
+      } catch (error) {
+        console.error('Failed to initialize loading ball:', error);
+      }
+
+      // Start progress bar animation
+      setTimeout(() => {
+        progressBar.style.width = '100%';
+      }, 100);
+
+      // Hide loading screen after exactly 10 seconds (8s spin + 2s explosion)
+      loadingTimeout = setTimeout(() => {
+        hideLoadingScreen();
+      }, 10000);
+
+      // Fallback redirect after 12 seconds if ball loader fails
+      setTimeout(() => {
+        console.log('Fallback redirect to main.html');
+        window.location.href = './main.html';
+      }, 12000);
+    }
+
+    function hideLoadingScreen() {
+      const container = document.getElementById('loading-container');
+      if (!container) return;
+
+      // Cleanup particle ball
+      if (loadingBallCleanup) {
+        loadingBallCleanup();
+        loadingBallCleanup = null;
+      }
+
+      // Clear timeout if manually triggered
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+        loadingTimeout = null;
+      }
+
+      // Fade out
+      container.classList.add('hidden');
+
+      // Note: Redirect is now handled by ball-loader.js after explosion
+    }
+
+    // Start loading when page loads
+    window.addEventListener('load', startLoading);
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+      if (loadingBallCleanup) {
+        loadingBallCleanup();
+      }
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+      }
+    });
+
+    // Allow skip by clicking anywhere
+    document.addEventListener('click', () => {
+      console.log('User clicked - redirecting to main.html');
+      window.location.href = './main.html';
+    });
+  </script>
 </body>
 </html>
